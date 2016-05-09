@@ -6,6 +6,7 @@ void setup() {
 	pinMode(9, INPUT_PULLUP);
 	pinMode(10, INPUT_PULLUP);
 	pinMode(11, INPUT_PULLUP);
+	pinMode(12, INPUT_PULLUP);
 }
 
 
@@ -30,7 +31,11 @@ void loop() {
 			Serial.println("Kinect");
 		}
 		sent = true;
-	sent = true;
+	} else if (!digitalRead(12)) {
+		if (!sent) {
+			Serial.println("Projector");
+		}
+		sent = true;
 	} else {
 		sent = false;
 	}
