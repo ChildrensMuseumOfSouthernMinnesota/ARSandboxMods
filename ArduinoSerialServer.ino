@@ -36,6 +36,16 @@ void loop() {
 			Serial.println("Projector");
 		}
 		sent = true;
+	} else if (!digitalRead(2)) {
+		if (!sent) {
+			Serial.println("Capture");
+		}
+		sent = true;
+	} else if (!digitalRead(3)) {
+		if (!sent) {
+			Serial.println("ResetBG");
+		}
+		sent = true;
 	} else {
 		sent = false;
 	}
