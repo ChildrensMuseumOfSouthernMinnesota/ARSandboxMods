@@ -11,6 +11,7 @@ ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 kinect_proc = ""
 proc = ""
 proj_proc = ""
+pointsFile = ""
 
 while True:
 	command = ser.readline().strip()
@@ -19,12 +20,17 @@ while True:
 			proc = subprocess.Popen(["/home/cmsm/src/SARndbox-1.6/bin/SARndbox", "-fpv", "-ws 3.0 30"])
 	elif (command == "Projector"):
 		if (proj_proc == ""):
-			proj_proc = subprocess.Popen("/home/cmsm/Desktop/CalibrateProjector")
+			proj_proc = subprocess.Popen(["/home/cmsm/Desktop/CalibrateProjector", "-loadInputGraph", "/home/cmsm/src/SARndbox-1.6/projCalib.inputgraph"], stdin=subprocess.PIPE)
 	elif (command == "Kinect"):
 		if (kinect_proc == ""):
 			pointsFile = open("/home/cmsm/Desktop/points.txt", 'w')
 			kinect_proc = subprocess.Popen(["/home/cmsm/Vrui-3.1/bin/RawKinectViewer", "-compress 0"], stdout=pointsFile)
-			pointsFile.close()
+	elif (command = "Capture"):
+		if (kinect_proc != ""):
+			kinect_proc.communicate("1")
+	elif (command = "ResetBG"):
+		if (kinect_proc != ""):
+			kinect_proc.communicate("2")
 	elif (command == "Off"):
 		if (proc != ""):
 			os.kill(proc.pid, signal.SIGINT)
@@ -32,6 +38,7 @@ while True:
 		if (kinect_proc != ""):
 			os.kill(kinect_proc.pid, signal.SIGINT)
 			kinect_proc = ""
+			pointsFile.close()
 		if (proj_proc != ""):
 			os.kill(proj_proc.pid, signal.SIGINT)
 			proj_proc = ""
