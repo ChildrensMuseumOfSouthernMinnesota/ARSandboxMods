@@ -7,6 +7,9 @@ void setup() {
 	pinMode(10, INPUT_PULLUP);
 	pinMode(11, INPUT_PULLUP);
 	pinMode(12, INPUT_PULLUP);
+	pinMode(2, INPUT_PULLUP);
+	pinMode(3, INPUT_PULLUP);
+
 }
 
 
