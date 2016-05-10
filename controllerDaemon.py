@@ -2,6 +2,7 @@
 
 import serial, subprocess, os, signal
 from evdev import uinput, ecodes
+import pyautogui
 #from pykeyboard import PyKeyboard
 
 #k = PyKeyboard()
@@ -25,22 +26,22 @@ while True:
 		if (kinect_proc == ""):
 			pointsFile = open("/home/cmsm/Desktop/points.txt", 'w')
 			kinect_proc = subprocess.Popen(["/home/cmsm/Vrui-3.1/bin/RawKinectViewer", "-compress 0"], stdout=pointsFile)
-	elif (command = "Capture"):
-		if (kinect_proc != ""):
-			kinect_proc.communicate("1")
-	elif (command = "ResetBG"):
-		if (kinect_proc != ""):
-			kinect_proc.communicate("2")
+	elif (command == "Capture"):
+		if (proj_proc != ""):
+			pyautogui.press('1')
+	elif (command == "ResetBG"):
+		if (proj_proc != ""):
+			pyautogui.press('2')
 	elif (command == "Off"):
 		if (proc != ""):
-			os.kill(proc.pid, signal.SIGINT)
+			proc.kill()
 			proc = ""
 		if (kinect_proc != ""):
-			os.kill(kinect_proc.pid, signal.SIGINT)
+			kinect_proc.kill()
 			kinect_proc = ""
 			pointsFile.close()
 		if (proj_proc != ""):
-			os.kill(proj_proc.pid, signal.SIGINT)
+			proj_proc.kill()
 			proj_proc = ""
 	elif (command == "Shutdown"):
 		if (proc != ""):
